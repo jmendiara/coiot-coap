@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "baseUrl": "src",
+    "declaration": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "lib": ["es2020"],
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "removeComments": true,
+    "rootDir": "./src",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "target": "ES2019",
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": ["node_modules"]
+}

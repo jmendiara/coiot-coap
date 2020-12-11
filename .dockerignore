@@ -1,0 +1,9 @@
+.git
+*Dockerfile*
+*docker-compose*
+.terraform
+*.md
+node_modules
+.coverage
+
+lib

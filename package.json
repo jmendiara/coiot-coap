@@ -1,13 +1,37 @@
 {
-  "name": "node-typescript-boilerplate",
-  "version": "0.0.0",
-  "description": "Minimalistic boilerplate to quick-start Node.js development in TypeScript.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "name": "coiot-coap",
+  "version": "1.0.0",
+  "description": "Minimalistic client and server for CoIoT protocol",
+  "author": "Javier Mendiara Cañardo <jmendiara@gmail.com>",
+  "license": "Apache-2.0",
+  "scripts": {
+    "start": "node dist/index.js",
+    "clean": "rm -fR lib && rm -fR *.tsbuildinfo",
+    "prebuild": "npm run clean",
+    "build": "tsc -p tsconfig.json",
+    "prewatch": "npm run clean",
+    "watch": "tsc -w -p tsconfig.json",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --coverage",
+    "test:watch": "jest --watch",
+    "format": "prettier --write '{src,__tests__}/**/*.{js,ts,md}'",
+    "prepublishOnly": "npm run test && npm run build"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "files": [
-    "dist"
+    "lib",
+    "src"
   ],
+  "bin": {
+    "coiot": "./bin/coiot"
+  },
+  "dependencies": {
+    "coap": "^0.24.0",
+    "commander": "^6.2.0"
+  },
   "devDependencies": {
+    "@types/bl": "^2.1.0",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.2",
     "@typescript-eslint/eslint-plugin": "^4.9.1",
@@ -20,20 +44,5 @@
     "ts-jest": "^26.4.4",
     "tsutils": "^3.17.0",
     "typescript": "^4.1.2"
-  },
-  "scripts": {
-    "start": "node dist/index.js",
-    "clean": "rm -fR dist && rm -fR *.tsbuildinfo",
-    "prebuild": "npm run clean",
-    "build": "tsc -p tsconfig.json",
-    "watch": "tsc -w -p tsconfig.json",
-    "lint": "eslint . --ext .ts,.tsx",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch",
-    "format": "prettier --write '{src,__tests__}/**/*.{js,ts,md}'",
-    "prepublish": "npm run test && npm run build"
-  },
-  "author": "Javier Mendiara Cañardo <jmendiara@gmail.com>",
-  "license": "Apache-2.0",
-  "dependencies": {}
+  }
 }

@@ -23,5 +23,5 @@
     "prettier/@typescript-eslint"
   ],
   "rules": {},
-  "ignorePatterns": ["dist/", "node_modules/"]
+  "ignorePatterns": ["**/*.js", "lib/*"]
 }

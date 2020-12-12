@@ -1,49 +1,76 @@
+# coiot-coap
 
-# node-typescript-boilerplate
+The CoIoT Protocol for Shelly devices
 
-👩🏻‍💻 Developer Ready: A comprehensive template. Works out of the box for most [Node.js][nodejs] projects.
+The CoIoT protocol is yet another protocol for IoT communication and integration. CoIoT is based
+on CoAP with some additions.
 
-🏃🏽 Instant Value: All basic tools included and configured:
+Every CoIoT device is expected to handle `status` and `description` requests and generate responses in
+predefined format. Also every device is required to periodically send a multicast CoAP request with
+its `status`
 
-- [TypeScript][typescript] [4.1][typescript-4-0]
-- [ESLint][eslint] with some initial rules recommendation
-- [Jest][jest] for fast unit testing and code coverage
-- Type definitions for Node.js and Jest
-- [Prettier][prettier] to enforce consistent code style
-- NPM [scripts](#available-scripts) for common operations
-- Simple example of TypeScript code and unit test
-- .editorconfig for consistent file format
-- Example configuration for [GitHub Actions][gh-actions]
+More information about CoIoT at:
+- https://shelly-api-docs.shelly.cloud/docs/coiot/v1/CoIoT%20for%20Shelly%20devices%20(rev%201.0)%20.pdf
+- https://shelly-api-docs.shelly.cloud/#coiot-protocol
 
-🤲 Free as in speech: available under the APLv2 license.
+## Getting started
 
-## Getting Started
+```sh
+npm i coiot-coap
+```
 
-This project is intended to be used with the latest Active LTS release of [Node.js][nodejs].
+### Basic Usage
+```js
+const { CoIoTServer, CoIoTClient } = require('coiot-coap');
 
-### Use as a repository template
+// Listen to ALL messages in your network
+const server = new CoIoTServer();
 
-To start, just click the **[Use template][repo-template-action]** link (or the green button). Now start adding your code in the `src` and unit tests in the `__tests__` directories.
+server.on('status', (status) => console.log(status));
+await server.listen();
 
-### Clone repository
+// Query devices directly
+const client = new CoIoTClient({ host: '192.168.1.102' });
+const status = await client.getStatus();
+const description = await client.getDescription();
+
+// or ...
+const client = new CoIoTClient();
+const status = await client.getStatus({ host: '192.168.1.102' });
+const description = await client.getDescription({ host: '192.168.1.102' });
+```
+
+### CLI
+```txt
+$ ./bin/coiot
+Usage: coiot [options] [command]
+
+Options:
+  -V, --version         output the version number
+  -h, --help            display help for command
+
+Commands:
+  listen                Listens to all status sent to the network
+  get <command> <host>  Request device to send its status or description
+  discover              Discovers devices using its periodic status publications
+  help [command]        display help for command
+```
+
+## Development setup
 
 To clone the repository use the following commands:
 
 ```sh
-git clone https://github.com/jmendiara/node-typescript-boilerplate
-cd node-typescript-boilerplate
+git clone https://github.com/jmendiara/coiot-coap && cd coiot-coap
 ```
 
-### Download latest release
-
-Download and unzip current `master` branch or one of tags:
-
+Use [VSCode development containers](https://code.visualstudio.com/docs/remote/containers),  directly [docker-compose](https://docs.docker.com/compose/
 ```sh
-wget https://github.com/jmendiara/node-typescript-boilerplate/archive/master.zip -O node-typescript-boilerplate.zip
-unzip node-typescript-boilerplate.zip && rm node-typescript-boilerplate.zip
+# Shell interactive session inside a container
+docker-compose run app bash
 ```
 
-## Available Scripts
+### Available Scripts
 
 - `clean` - remove coverage data, Jest cache and transpiled files,
 - `build` - transpile TypeScript to ES6,
@@ -55,4 +82,16 @@ unzip node-typescript-boilerplate.zip && rm node-typescript-boilerplate.zip
 
 ## License
 
-Licensed under the APLv2. See the [LICENSE](https://github.com/jsynowiec/node-typescript-boilerplate/blob/master/LICENSE) file for details.
+Copyright 2020 Javier Mendiara Cañardo
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

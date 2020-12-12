@@ -1,0 +1,74 @@
+#!/usr/bin/env node
+const { program } = require('commander');
+const { version } = require('../package.json');
+const { CoIoTServer, CoIoTClient } = require('../lib/index');
+
+program.version(version);
+
+program
+  .command('listen')
+  .description('Listens to all status sent to the network')
+  .action(async () => {
+    try {
+      console.error('Listening to Multicast messages...');
+
+      const server = new CoIoTServer();
+      await server.listen();
+      server.on('status', (msg) => console.log(msg));
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('get <command> <host>')
+  .description('Request device to send its status or description', {
+    command: 'the command to send: "status" or "description"',
+    host: 'the device ip',
+  })
+  .action(async (command, host) => {
+    try {
+      let data;
+      const client = new CoIoTClient({ host });
+      if (command === 'description') {
+        data = await client.getDescription();
+      }
+      if (command === 'status') {
+        data = await client.getStatus();
+      }
+      console.log(JSON.stringify(data));
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+program
+  .command('discover')
+  .description('Discovers devices using its periodic status publications')
+  .action(async () => {
+    try {
+      console.log('Discovering devices...');
+
+      const devices = new Map();
+
+      const server = new CoIoTServer();
+      await server.listen();
+
+      server.on('status', (msg, res) => {
+        const key = msg.rawdevid;
+        const isNotified = devices.has(key);
+        if (!isNotified) {
+          console.log(`${msg.location.host}: ${msg.deviceType} (${msg.deviceId})`);
+          devices.set(key, true);
+        }
+      });
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  });
+
+program.parse(process.argv);
+

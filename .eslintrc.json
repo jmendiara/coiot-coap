@@ -23,5 +23,5 @@
     "prettier/@typescript-eslint"
   ],
   "rules": {},
-  "ignorePatterns": ["**/*.js", "lib/*"]
+  "ignorePatterns": ["**/*.js", "lib/*", "bin"]
 }

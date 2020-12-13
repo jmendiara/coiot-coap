@@ -15,7 +15,7 @@ describe('Message parsing', () => {
       method: 'GET',
       url: '/cit/s',
       rsinfo: { address: '192.168.31.190', family: 'IPv4', port: 5683, size: 249 },
-    }); ;
+    });
     expect(status).toEqual({
       rawdevid: 'SHSW-1#2C7093#2',
       deviceType: 'SHSW-1',
@@ -62,8 +62,6 @@ describe('Message parsing', () => {
     }).toThrow();
   });
 
-
-
   it('should parse nice description', () => {
     // @ts-ignore
     const status = toDescriptionMessage({
@@ -77,7 +75,7 @@ describe('Message parsing', () => {
       method: 'GET',
       url: '/cit/s',
       rsinfo: { address: '192.168.31.190', family: 'IPv4', port: 5683, size: 249 },
-    }); ;
+    });
     expect(status).toEqual({
       rawdevid: 'SHSW-1#2C7093#2',
       deviceType: 'SHSW-1',
@@ -87,7 +85,7 @@ describe('Message parsing', () => {
         blk: [{ I: 1, D: 'relay_0' }],
         sen: [{ I: 2102, T: 'EV', D: 'inputEvent', R: ['S/L', ''], L: 1 }],
       },
-      location: { host: '192.168.31.190', port: 5683 }
+      location: { host: '192.168.31.190', port: 5683 },
     });
   });
 
@@ -104,7 +102,7 @@ describe('Message parsing', () => {
         method: 'GET',
         url: '/cit/s',
         rsinfo: { address: '192.168.31.190', family: 'IPv4', port: 5683, size: 249 },
-      })
+      }),
     ).toThrow();
   });
 
@@ -122,7 +120,7 @@ describe('Message parsing', () => {
         method: 'GET',
         url: '/cit/s',
         rsinfo: { address: '192.168.31.190', family: 'IPv4', port: 5683, size: 249 },
-      })
+      }),
     ).toThrow();
   });
 });

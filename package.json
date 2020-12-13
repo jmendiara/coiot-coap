@@ -11,7 +11,7 @@
     "build": "tsc -p tsconfig.json",
     "prewatch": "npm run clean",
     "watch": "tsc -w -p tsconfig.json",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "format": "prettier --write '{src,__tests__}/**/*.{js,ts,md}'",
